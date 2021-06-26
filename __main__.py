@@ -10,6 +10,7 @@ import time
 
 cube = wireframe.Wireframe()
 
+
 # a = np.array([[0,0,0],[1000,0,0], [0,1000,0], [0,0,1000]])
 
 # axes.addNodes(a)

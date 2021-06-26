@@ -16,6 +16,7 @@ class Drone():
 		self.roll = 0
 		self.pitch = 0
 		self.yaw = 0
+		self.mode = 'Acro'
 		self.heading = heading
 		self.wireframe = wireframe.Wireframe()
 		self.vertical_velocity = 0

@@ -29,6 +29,8 @@ class ProjectionViewer:
 		self.edgeColour = (200,200,200)
 		self.nodeRadius = 4
 
+		pygame.init()
+
 	def run(self):
 
 		key_to_function = {
@@ -68,8 +70,6 @@ class ProjectionViewer:
 		while running:
 
 			keys = pygame.key.get_pressed()
-
-			self.drone_physics()
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -126,6 +126,7 @@ class ProjectionViewer:
 
 
 			self.display()
+			self.drone_physics()
 			pygame.display.flip()
 
 	def addWireframe(self, name, wireframe):
@@ -369,7 +370,30 @@ class ProjectionViewer:
 			self.drone.vertical_velocity -= 1
 			self.drone.decrease_altitude(-self.drone.vertical_velocity)
 
-		print(self.drone.roll)
+		#Blit to screen drone roll angle, pitch angle and yaw angle
+		font = pygame.font.Font('freesansbold.ttf', 20)
+		text = font.render(f'Roll: {(self.drone.roll/(2*math.pi))*360:.2f}', True, (255,255,255),(self.background))
+		textRect = text.get_rect()
+		textRect.center = (1100, 50)
+		self.screen.blit(text, textRect)
+
+		font = pygame.font.Font('freesansbold.ttf', 20)
+		text = font.render(f'Pitch: {(self.drone.pitch/(2*math.pi))*360:.2f}', True, (255,255,255),(self.background))
+		textRect = text.get_rect()
+		textRect.center = (1100, 75)
+		self.screen.blit(text, textRect)
+
+		font = pygame.font.Font('freesansbold.ttf', 20)
+		text = font.render(f'Yaw: {(self.drone.yaw/(2*math.pi))*360:.2f}', True, (255,255,255),(self.background))
+		textRect = text.get_rect()
+		textRect.center = (1100, 100)
+		self.screen.blit(text, textRect)
+
+		font = pygame.font.Font('freesansbold.ttf', 20)
+		text = font.render(f'Flight Mode: {self.drone.mode}', True, (255,255,255),(self.background))
+		textRect = text.get_rect()
+		textRect.center = (1100, 125)
+		self.screen.blit(text, textRect)
 
 		
 					
