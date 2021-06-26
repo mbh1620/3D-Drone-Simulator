@@ -8,6 +8,10 @@ features
 
 - Roll: Left and Right tilt control of drone.
 
+- Altitude: Up and down control of drone.
+
+- Gravity: Acceleration downwards due to gravity.
+
 features to be implemented:
 
 - Yaw: left and right yaw control. 
