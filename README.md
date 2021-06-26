@@ -1,20 +1,22 @@
-# 3d_renderer
+# Drone Simulator
 
-3d graphics renderer built from only using pygame and numpy in Python.
+3D environment for simulating and controlling virtual quadcopter drones.
 
-This was done to help my understanding of rotation, scale and transformation matrices.
+features
 
-I would like to try and rewrite this using c++ and openGL.
+- Pitch: Forward and Back tilt control of drone.
 
-In the future I would like to write a script using my lidar sensor to create an .obj file that displays a point cloud of some measured data. This could maybe be done using: https://www.matthewhaywood.co.uk/projects/dslr , with the DSLR camera swapped out with the LIDAR sensor. A rotary encoder could be used to get the x and y angle of the lidar sensor.
+- Roll: Left and Right tilt control of drone.
 
-Was done following these instructions:
+features to be implemented:
 
-https://www.petercollingridge.co.uk/tutorials/3d/pygame/matrix-transformations/
+- Yaw: left and right yaw control. 
 
-photo in action:
+The axes of drone will need to move with the drone.
 
-![photo](https://github.com/mbh1620/3d_renderer/blob/main/photos/teapotgif.gif)
-![photo](https://github.com/mbh1620/3d_renderer/blob/main/photos/3d_viewer.gif)
+- PID controller and PID graph visualizer for stable flight and for coordinate click and mission control.
+
+- Multiple drone fleet controller, for operating a number of drones in an airspace.
+
 
 
