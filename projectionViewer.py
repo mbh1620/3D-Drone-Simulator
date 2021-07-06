@@ -1,6 +1,7 @@
 from wireframe import *
 import pygame
 import numpy as np
+import math
 from camera import *
 import time
 
@@ -52,14 +53,16 @@ class ProjectionViewer:
 		pygame.K_z: (lambda x: x.rotateAll('Z', 0.1)),
 		pygame.K_x: (lambda x: x.rotateAll('Z', -0.1)),
 		
-		pygame.K_p: (lambda x: x.Toggle_Nodes()),
+		
 
 		pygame.K_u: (lambda x: x.drone_up()),
 		pygame.K_j: (lambda x: x.drone_down()),
 		pygame.K_h: (lambda x: x.drone_left()),
 		pygame.K_k: (lambda x: x.drone_right()),
 		pygame.K_y: (lambda x: x.drone_forward()),
-		pygame.K_i: (lambda x: x.drone_backward())
+		pygame.K_i: (lambda x: x.drone_backward()),
+		pygame.K_o: (lambda x: x.drone_yaw('l')),
+		pygame.K_p: (lambda x: x.drone_yaw('r'))
 
 		}
 
@@ -103,8 +106,6 @@ class ProjectionViewer:
 				key_to_function[pygame.K_z](self)
 			if keys[pygame.K_x]:
 				key_to_function[pygame.K_x](self)
-			if keys[pygame.K_p]:
-				key_to_function[pygame.K_p](self)
 			if keys[pygame.K_t]:
 				key_to_function[pygame.K_t](self)
 			if keys[pygame.K_d]:
@@ -123,6 +124,10 @@ class ProjectionViewer:
 			if keys[pygame.K_i]:
 				key_to_function[pygame.K_i](self)
 
+			if keys[pygame.K_o]:
+				key_to_function[pygame.K_o](self)
+			if keys[pygame.K_p]:
+				key_to_function[pygame.K_p](self)
 
 
 			self.display()
@@ -260,7 +265,7 @@ class ProjectionViewer:
 			wireframe.transform(matrix)
 
 
-		self.camera.hor_angle += theta
+		
 
 		if self.camera.hor_angle >= 2*math.pi:
 			self.camera.hor_angle -= 2*math.pi
@@ -268,8 +273,21 @@ class ProjectionViewer:
 			self.camera.hor_angle += 2*math.pi
 
 		self.camera.define_render_space()
+		self.camera.hor_angle += theta
+		self.camera.set_position(self.center_point)
 		print(self.camera.pos)
-	
+
+		#Update the position of the drone here!
+
+		# a = (self.camera.pos[0] - self.drone.pos[0])**2
+		# b = (self.camera.pos[2] - self.drone.pos[2])**2
+		# r = math.sqrt(a+b)
+
+		# self.drone.pos[0] = r*math.cos(self.camera.hor_angle)
+		# self.drone.pos[2] = r*math.sin(self.camera.hor_angle)
+		
+		
+
 
 	def scale_centre(self, vector):
 
@@ -297,42 +315,48 @@ class ProjectionViewer:
 
 	def move_cam_forward(self, amount):
 		#Moving the camera forward will be a positive translation in the z axis for every other object.
-		self.camera.set_position(self.center_point)
+		
 		self.camera.define_render_space()
 		self.translateAll([0,0,-amount])
+		self.camera.set_position(self.center_point)
 		print("Camera position: ")
 		print(self.camera.pos)
 
 	def move_cam_backward(self, amount):
-		self.camera.set_position(self.center_point)
+		
 		self.camera.define_render_space()
 		self.translateAll([0,0,amount])
+		self.camera.set_position(self.center_point)
 		print("Camera position: ")
 		print(self.camera.pos)
 
 	def move_cam_left(self, amount):
-		self.camera.set_position(self.center_point)
+		
 		self.camera.define_render_space()
 		self.translateAll([-amount,0,0])
+		self.camera.set_position(self.center_point)
 		print("Camera position: ")
 		print(self.camera.pos)
 
 	def move_cam_right(self, amount):
-		self.camera.set_position(self.center_point)
+		
 		self.camera.define_render_space()
 		self.translateAll([amount,0,0])
+		self.camera.set_position(self.center_point)
 		print("Camera position: ")
 		print(self.camera.pos)
 
 	def move_cam_up(self, amount):
-		self.camera.set_position(self.center_point)
+		
 		self.camera.define_render_space()
 		self.translateAll([0,-amount,0])
+		self.camera.set_position(self.center_point)
 
 	def move_cam_down(self, amount):
-		self.camera.set_position(self.center_point)
+		
 		self.camera.define_render_space()
 		self.translateAll([0,amount,0])
+		self.camera.set_position(self.center_point)
 
 	def Toggle_Nodes(self):
 		if self.displayNodes == True:
@@ -348,17 +372,24 @@ class ProjectionViewer:
 
 	def drone_left(self):
 		# drone_Centre = pos1+pos1 / 2
-	
-		self.drone.tilt_left(10, self.camera)
+		
+		# self.drone.tilt((1/30)*math.pi, self.camera)
+		self.drone.tilt_drone_in_relation((1/30)*math.pi, self.camera)
+
+
 
 	def drone_right(self):
-		self.drone.tilt_right(10, self.camera)
+		# self.drone.tilt(-1*(1/30)*math.pi, self.camera)
+		self.drone.tilt_drone_in_relation(-(1/30)*math.pi, self.camera)
 
 	def drone_forward(self):
-		self.drone.tilt_forward(10, self.camera)
+		self.drone.pitch_drone_in_relation(-(1/30)*math.pi, self.camera)
 
 	def drone_backward(self):
-		self.drone.tilt_back(10, self.camera)
+		self.drone.pitch_drone_in_relation((1/30)*math.pi, self.camera)
+
+	def drone_yaw(self, direction):
+		self.drone.yaw_(direction, 10, self.camera)
 
 	def drone_physics(self):
 		#Drone Gravity
@@ -393,6 +424,20 @@ class ProjectionViewer:
 		text = font.render(f'Flight Mode: {self.drone.mode}', True, (255,255,255),(self.background))
 		textRect = text.get_rect()
 		textRect.center = (1100, 125)
+		self.screen.blit(text, textRect)
+
+
+		font = pygame.font.Font('freesansbold.ttf', 20)
+		text = font.render(f'Camera Angle: {self.camera.hor_angle/(2*math.pi)*360:.2f}', True, (255,255,255),(self.background))
+		textRect = text.get_rect()
+		textRect.center = (1100, 150)
+		self.screen.blit(text, textRect)
+
+
+		font = pygame.font.Font('freesansbold.ttf', 20)
+		text = font.render(f'POS(X,Y,Z): {self.drone.pos[0]:.2f}, {self.drone.pos[1]:.2f}, {self.drone.pos[2]:.2f}', True, (255,255,255),(self.background))
+		textRect = text.get_rect()
+		textRect.center = (900, 175)
 		self.screen.blit(text, textRect)
 
 		

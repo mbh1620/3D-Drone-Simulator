@@ -166,6 +166,11 @@ class Wireframe:
 						 [0,0,0,0]])
 
 
+	def custom_matrix(matrix):
+
+		return np.array(matrix)
+
+
 
 
 
