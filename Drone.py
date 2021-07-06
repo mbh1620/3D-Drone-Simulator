@@ -138,8 +138,8 @@ class Drone():
 		#tilt = amount*sin(camera.heading)
 		#roll = amount*cos(camera.heading)
 
-		self.tilt(amount*math.cos(self.yaw), camera)
-		self.pitch_(amount*math.sin(self.yaw), camera)
+		self.tilt(amount*math.cos(self.yaw-camera.hor_angle), camera)
+		self.pitch_(amount*math.sin(self.yaw-camera.hor_angle), camera)
 
 		self.roll -=  amount
 
