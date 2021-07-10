@@ -14,7 +14,7 @@ class Drone():
 		self.roll = 0
 		self.pitch = 0
 		self.yaw = 0
-		self.mode = 'Acro'
+		self.mode = 'ACRO'
 		self.heading = heading
 		self.wireframe = wireframe.Wireframe()
 		
@@ -26,6 +26,13 @@ class Drone():
 		self.wireframe.addNodes(a)
 		self.wireframe.addEdges([(0,1), (2,3)])
 		self.wireframe.addEdges([(4,7), (5,7), (6,7)])
+
+		self.current_roll_error = 0
+		self.proportional = 0
+		self.integral = 0
+		self.differential = 0
+
+		self.stabilise_PID_controller()
 
 
 	def Wireframe(self):
@@ -197,21 +204,57 @@ class Drone():
 		self.yaw -= var*(1/30)*math.pi
 		
 
-	def stabilise_PID_controller(self, camera):
+	def stabilise_PID_controller(self):
 
 		#Controller used for auto level mode
 
-		p_parameter = 0 
-		i_parameter = 0
-		d_parameter = 0
+		self.p1_parameter = 0.1
+		self.i1_parameter = 0.01
+		self.d1_parameter = 0.1
 
 	def GPS_PID_controller(self, camera):
 
 		#Controller used to stabilise waypoint positioning
 
-		p_parameter = 0
-		i_parameter = 0
-		d_parameter = 0
+		self.p2_parameter = 0
+		self.i2_parameter = 0
+		self.d2_parameter = 0
+
+	def position_mode(self, camera):
+
+		height = self.pos[1]
+
+		self.prev_roll_error = self.current_roll_error
+
+		#implement the PID controller so that it self stabilizes when sticks are not in use
+
+		#pitch and roll must go back to 0 
+
+		#thrust must hold at a level
+
+		self.current_roll_error = self.roll
+
+		self.proportional = self.current_roll_error
+		self.integral += self.current_roll_error
+		self.differential = self.current_roll_error - self.prev_roll_error
+		
+
+		ROLL_PID_OUTPUT = (self.proportional*self.p1_parameter) + (self.integral*self.i1_parameter)+(self.differential*self.d1_parameter)
+
+		print(ROLL_PID_OUTPUT)
+
+		self.tilt_drone_in_relation(ROLL_PID_OUTPUT, camera)
+
+
+
+		pitch_error = 0 - self.pitch
+
+		height_error = height - self.pos[1]
+
+
+
+
+
 
 
 

@@ -62,7 +62,9 @@ class ProjectionViewer:
 		pygame.K_y: (lambda x: x.drone_forward()),
 		pygame.K_i: (lambda x: x.drone_backward()),
 		pygame.K_o: (lambda x: x.drone_yaw('l')),
-		pygame.K_p: (lambda x: x.drone_yaw('r'))
+		pygame.K_p: (lambda x: x.drone_yaw('r')),
+
+		pygame.K_m: (lambda x: x.mode())
 
 		}
 
@@ -128,11 +130,16 @@ class ProjectionViewer:
 				key_to_function[pygame.K_o](self)
 			if keys[pygame.K_p]:
 				key_to_function[pygame.K_p](self)
+			if keys[pygame.K_m]:
+				key_to_function[pygame.K_m](self)
 
 
 			self.display()
 			self.drone_physics()
 			pygame.display.flip()
+
+			if self.drone.mode == "POS":
+				self.drone.position_mode(self.camera)
 
 	def addWireframe(self, name, wireframe):
 		self.wireframes[name] = wireframe
@@ -439,6 +446,16 @@ class ProjectionViewer:
 		textRect = text.get_rect()
 		textRect.center = (900, 175)
 		self.screen.blit(text, textRect)
+
+	def mode(self):
+
+		if self.drone.mode == 'ACRO':
+			self.drone.mode = 'POS'
+			print('changed mode to POS')
+			
+		elif self.drone.mode == 'POS':
+			self.drone.mode = 'ACRO'
+			print('changed mode to ACRO')
 
 		
 					
