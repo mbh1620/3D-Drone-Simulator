@@ -395,10 +395,16 @@ class ProjectionViewer:
 		self.rotate_about_camera('Y', prev)
 
 	def drone_forward(self):
+		prev = self.camera.hor_angle
+		self.rotate_about_camera('Y', -self.camera.hor_angle)
 		self.drone.pitch_drone_in_relation(-(1/30)*math.pi, self.camera)
+		self.rotate_about_camera('Y', prev)
 
 	def drone_backward(self):
+		prev = self.camera.hor_angle
+		self.rotate_about_camera('Y', -self.camera.hor_angle)
 		self.drone.pitch_drone_in_relation((1/30)*math.pi, self.camera)
+		self.rotate_about_camera('Y', prev)
 
 	def drone_yaw(self, direction):
 		prev = self.camera.hor_angle
