@@ -17,17 +17,20 @@ class Drone():
 		self.mode = 'ACRO'
 		self.heading = heading
 		self.wireframe = wireframe.Wireframe()
+
+		self.desired_alt = 700
 		
 		self.vertical_velocity = 0
 		self.horizontal_velocity = 0
 
-		a = np.array([[-250,0,0],[250,0,0], [0,0,250], [0,0,-250], [1000, 0, 0], [0, 1000, 0], [0, 0, 1000], [0,0,0]])
+		a = np.array([[-250,0,-250],[250,0,250], [-250,0,250], [250,0,-250], [1000, 0, 0], [0, 1000, 0], [0, 0, 1000], [0,0,0]])
 
 		self.wireframe.addNodes(a)
 		self.wireframe.addEdges([(0,1), (2,3)])
 		self.wireframe.addEdges([(4,7), (5,7), (6,7)])
 
 		self.current_roll_error = 0
+
 		self.proportional = 0
 		self.integral = 0
 		self.differential = 0
@@ -37,6 +40,12 @@ class Drone():
 		self.t_proportional = 0
 		self.t_integral = 0
 		self.t_differential = 0
+
+		self.current_alt_error = 0
+
+		self.a_proportional = 0
+		self.a_integral = 0
+		self.a_differential = 0
 
 		self.stabilise_PID_controller()
 
@@ -146,14 +155,6 @@ class Drone():
 
 		self.roll -=  amount
 
-	def tilt_drone_test(self, amount, camera):
-
-		self.yaw_('r', camera.hor_angle, camera)
-		self.tilt(amount, camera)
-		self.yaw_('l', camera.hor_angle, camera)
-		self.roll -=  amount
-
-
 	def pitch_drone_in_relation(self, amount, camera):
 		#To tilt the drone depending on where the camera is we need to tilt and roll, this means that a combination of tilt and roll need to be added
 
@@ -211,6 +212,10 @@ class Drone():
 		self.i1_parameter = 0.01
 		self.d1_parameter = 0.1
 
+		self.p2_parameter = 0.04
+		self.i2_parameter = 0.01
+		self.d2_parameter = 0.1
+
 	def GPS_PID_controller(self, camera):
 
 		#Controller used to stabilise waypoint positioning
@@ -221,7 +226,7 @@ class Drone():
 
 	def position_mode(self, camera):
 
-		height = self.pos[1]
+		self.alt = self.pos[1]
 
 		#-----------------------------------
 		#		Roll PID Controller
@@ -262,13 +267,26 @@ class Drone():
 
 		self.pitch_drone_in_relation(TILT_PID_OUTPUT, camera)
 
+		#-----------------------------------
+		#		Tilt PID Controller
+		#-----------------------------------
+
+		self.prev_alt_error = self.current_alt_error
+
+		self.current_alt_error = self.desired_alt - self.alt
+
+		self.a_proportional = self.current_alt_error
+		self.a_integral += self.current_alt_error
+		self.a_differential = self.current_alt_error - self.prev_alt_error
+
+		ALT_PID_OUTPUT = (self.a_proportional*self.p2_parameter) + (self.a_integral*self.i2_parameter) + (self.a_differential*self.d2_parameter)
+
+		if ALT_PID_OUTPUT > 0:
+			self.increase_altitude(ALT_PID_OUTPUT, camera)
 
 
 
-
-		pitch_error = 0 - self.pitch
-
-		height_error = height - self.pos[1]
+		
 
 
 

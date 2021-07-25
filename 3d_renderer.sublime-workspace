@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"a_",
+				"a_differential"
+			],
+			[
+				"a",
+				"a_proportional"
+			],
+			[
+				"curre",
+				"current_alt_error"
+			],
+			[
+				"rota",
+				"rotate_about_camera"
+			],
+			[
 				"T",
 				"TILT_PID_OUTPUT"
 			],
@@ -46,10 +62,6 @@
 			[
 				"rot",
 				"rot_matrix"
-			],
-			[
-				"rota",
-				"rotateXMatrix"
 			],
 			[
 				"drone_",
@@ -300,10 +312,6 @@
 				"step_size"
 			],
 			[
-				"a",
-				"average"
-			],
-			[
 				"time",
 				"time_spent"
 			],
@@ -506,14 +514,6 @@
 			[
 				"oppis",
 				"oppisite"
-			],
-			[
-				"oppi",
-				"oppisite_value"
-			],
-			[
-				"cal",
-				"calculate_speed"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "projectionViewer.py",
 			"settings":
 			{
-				"buffer_size": 12623,
+				"buffer_size": 13259,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -543,14 +543,6 @@
 			{
 				"buffer_size": 2145,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "mesh_floor.py",
-			"settings":
-			{
-				"buffer_size": 297,
 				"line_ending": "Unix"
 			}
 		},
@@ -576,7 +568,7 @@
 			"file": "Drone.py",
 			"settings":
 			{
-				"buffer_size": 6624,
+				"buffer_size": 7146,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "'''"
@@ -699,6 +691,7 @@
 	},
 	"file_history":
 	[
+		"/Users/matthaywood/Desktop/3D Drone Simulator/mesh_floor.py",
 		"/Users/matthaywood/Desktop/3D Drone Simulator/test.obj",
 		"/Users/matthaywood/Desktop/3D Drone Simulator/obj_loader.py",
 		"/Users/matthaywood/Desktop/3D Graphics Renderer/projectionViewer.py",
@@ -825,8 +818,7 @@
 		"/Users/matthaywood/Desktop/test2.cpp",
 		"/Users/matthaywood/Desktop/cube_exercise.CS",
 		"/Users/matthaywood/Library/Application Support/Sublime Text 3/Packages/User/C#.sublime-build",
-		"/Users/matthaywood/Desktop/fib.cpp",
-		"/Users/matthaywood/Desktop/projection/house_projection/house_projection.py"
+		"/Users/matthaywood/Desktop/fib.cpp"
 	],
 	"find":
 	{
@@ -863,7 +855,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -872,15 +864,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12623,
+						"buffer_size": 13259,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10108,
-								10108
+								10422,
+								10422
 							]
 						],
 						"settings":
@@ -889,10 +881,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 234.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -920,7 +912,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -936,8 +928,8 @@
 						"selection":
 						[
 							[
-								255,
-								372
+								446,
+								446
 							]
 						],
 						"settings":
@@ -945,43 +937,14 @@
 							"syntax": "Packages/Python/Python.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 602.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "mesh_floor.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 297,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "wireframe.py",
 					"semi_transient": false,
 					"settings":
@@ -1003,14 +966,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2815.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 4,
 					"file": "camera.py",
 					"semi_transient": false,
 					"settings":
@@ -1036,24 +999,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 5,
 					"file": "Drone.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6624,
+						"buffer_size": 7146,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5102,
-								5102
+								5106,
+								5106
 							]
 						],
 						"settings":
@@ -1063,7 +1026,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4060.0,
+						"translation.y": 3877.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

@@ -384,14 +384,14 @@ class ProjectionViewer:
 		# self.drone.tilt((1/30)*math.pi, self.camera)
 		prev = self.camera.hor_angle
 		self.rotate_about_camera('Y', -self.camera.hor_angle)
-		self.drone.tilt_drone_test((1/30)*math.pi, self.camera)
+		self.drone.tilt_drone_in_relation((1/30)*math.pi, self.camera)
 		self.rotate_about_camera('Y', prev)
 
 	def drone_right(self):
 		# self.drone.tilt(-1*(1/30)*math.pi, self.camera)
 		prev = self.camera.hor_angle
 		self.rotate_about_camera('Y', -self.camera.hor_angle)
-		self.drone.tilt_drone_test(-(1/30)*math.pi, self.camera)
+		self.drone.tilt_drone_in_relation(-(1/30)*math.pi, self.camera)
 		self.rotate_about_camera('Y', prev)
 
 	def drone_forward(self):
