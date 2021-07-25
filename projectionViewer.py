@@ -138,7 +138,8 @@ class ProjectionViewer:
 			self.drone_physics()
 			pygame.display.flip()
 
-			if self.drone.mode == "POS":
+
+			if self.drone.mode == "POS" and keys[pygame.K_h] == 0 and keys[pygame.K_k] == 0:
 				self.drone.position_mode(self.camera)
 
 	def addWireframe(self, name, wireframe):
@@ -381,13 +382,17 @@ class ProjectionViewer:
 		# drone_Centre = pos1+pos1 / 2
 		
 		# self.drone.tilt((1/30)*math.pi, self.camera)
-		self.drone.tilt_drone_in_relation((1/30)*math.pi, self.camera)
-
-
+		prev = self.camera.hor_angle
+		self.rotate_about_camera('Y', -self.camera.hor_angle)
+		self.drone.tilt_drone_test((1/30)*math.pi, self.camera)
+		self.rotate_about_camera('Y', prev)
 
 	def drone_right(self):
 		# self.drone.tilt(-1*(1/30)*math.pi, self.camera)
-		self.drone.tilt_drone_in_relation(-(1/30)*math.pi, self.camera)
+		prev = self.camera.hor_angle
+		self.rotate_about_camera('Y', -self.camera.hor_angle)
+		self.drone.tilt_drone_test(-(1/30)*math.pi, self.camera)
+		self.rotate_about_camera('Y', prev)
 
 	def drone_forward(self):
 		self.drone.pitch_drone_in_relation(-(1/30)*math.pi, self.camera)
@@ -396,7 +401,10 @@ class ProjectionViewer:
 		self.drone.pitch_drone_in_relation((1/30)*math.pi, self.camera)
 
 	def drone_yaw(self, direction):
-		self.drone.yaw_(direction, 10, self.camera)
+		prev = self.camera.hor_angle
+		self.rotate_about_camera('Y', -self.camera.hor_angle)
+		self.drone.yaw_(direction, (1/30)*math.pi, self.camera)
+		self.rotate_about_camera('Y', prev)
 
 	def drone_physics(self):
 		#Drone Gravity
@@ -404,7 +412,6 @@ class ProjectionViewer:
 		if self.drone.pos[1] <= 0:
 			pass
 		else:
-
 			self.drone.vertical_velocity -= 1
 			self.drone.decrease_altitude(-self.drone.vertical_velocity)
 

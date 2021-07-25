@@ -32,6 +32,12 @@ class Drone():
 		self.integral = 0
 		self.differential = 0
 
+		self.current_tilt_error = 0
+
+		self.t_proportional = 0
+		self.t_integral = 0
+		self.t_differential = 0
+
 		self.stabilise_PID_controller()
 
 
@@ -49,15 +55,11 @@ class Drone():
 
 		wf = wireframe.Wireframe()
 
-		matrix = wf.translationMatrix(camera.pos[0]-self.pos[0], camera.pos[1]-self.pos[1], self.pos[2]-camera.pos[2])
+		matrix = wf.translationMatrix(self.pos[0]-camera.pos[0], self.pos[1]-camera.pos[1], self.pos[2]-camera.pos[2])
 
 		self.wireframe.transform(matrix)
 
-		wf = wireframe.Wireframe()
-
-		matrix = wf.rotateYMatrix(-camera.hor_angle)
-
-		self.wireframe.transform(matrix)
+		self.yaw_('r', camera.hor_angle, camera)
 
 		wf = wireframe.Wireframe()
 
@@ -65,14 +67,10 @@ class Drone():
 		
 		self.wireframe.transform(matrix)
 
-		wf = wireframe.Wireframe()
-
-		matrix = wf.rotateYMatrix(camera.hor_angle)
-
-		self.wireframe.transform(matrix)
+		self.yaw_('l', camera.hor_angle, camera)
 
 		wf = wireframe.Wireframe()
-		matrix = wf.translationMatrix(-camera.pos[0]+self.pos[0],-camera.pos[1]+self.pos[1],self.pos[2]+camera.pos[2])
+		matrix = wf.translationMatrix(-self.pos[0]+camera.pos[0],-self.pos[1]+camera.pos[1],-self.pos[2]+camera.pos[2])
 
 		self.wireframe.transform(matrix)
 
@@ -87,11 +85,9 @@ class Drone():
 
 	def pitch_(self, amount, camera):
 	
-		
-
 		wf = wireframe.Wireframe()
 
-		matrix = wf.translationMatrix(camera.pos[0], camera.pos[1]-self.pos[1], camera.pos[2]-self.pos[2])
+		matrix = wf.translationMatrix(camera.pos[0]+self.pos[0], -self.pos[1]+camera.pos[1], camera.pos[2]-self.pos[2])
 
 		self.wireframe.transform(matrix)
 
@@ -102,7 +98,7 @@ class Drone():
 		self.wireframe.transform(matrix)
 
 		wf = wireframe.Wireframe()
-		matrix = wf.translationMatrix(-camera.pos[0],-camera.pos[1]+self.pos[1],-camera.pos[2]+self.pos[2])
+		matrix = wf.translationMatrix(-camera.pos[0]-self.pos[0],self.pos[1]-camera.pos[1],-camera.pos[2]+self.pos[2])
 
 		self.wireframe.transform(matrix)
 
@@ -150,6 +146,14 @@ class Drone():
 
 		self.roll -=  amount
 
+	def tilt_drone_test(self, amount, camera):
+
+		self.yaw_('r', camera.hor_angle, camera)
+		self.tilt(amount, camera)
+		self.yaw_('l', camera.hor_angle, camera)
+		self.roll -=  amount
+
+
 	def pitch_drone_in_relation(self, amount, camera):
 		#To tilt the drone depending on where the camera is we need to tilt and roll, this means that a combination of tilt and roll need to be added
 
@@ -163,15 +167,10 @@ class Drone():
 
 		'''
 
-		a = (camera.pos[0] - self.pos[0])**2
-		b = (camera.pos[2] - self.pos[2])**2
+		self.tilt(amount*math.sin(self.yaw-camera.hor_angle), camera)
+		self.pitch_(-amount*math.cos(self.yaw-camera.hor_angle), camera)
 
-		r = math.sqrt(a + b)
-
-		self.tilt(amount*math.sin(camera.hor_angle), camera)
-		self.pitch_(-amount*math.cos(camera.hor_angle), camera)
-
-		self.pitch -= amount
+		self.pitch += amount
 
 
 
@@ -193,7 +192,7 @@ class Drone():
 		#Do Rotation
 		wf = wireframe.Wireframe()
 		
-		matrix = wf.rotateYMatrix(var*(1/30)*math.pi)
+		matrix = wf.rotateYMatrix(var*amount)
 		self.wireframe.transform(matrix)
 
 		wf = wireframe.Wireframe()
@@ -201,14 +200,14 @@ class Drone():
 
 		self.wireframe.transform(matrix)
 
-		self.yaw -= var*(1/30)*math.pi
+		self.yaw -= var*amount
 		
 
 	def stabilise_PID_controller(self):
 
 		#Controller used for auto level mode
 
-		self.p1_parameter = 0.1
+		self.p1_parameter = 0.3
 		self.i1_parameter = 0.01
 		self.d1_parameter = 0.1
 
@@ -224,13 +223,11 @@ class Drone():
 
 		height = self.pos[1]
 
+		#-----------------------------------
+		#		Roll PID Controller
+		#-----------------------------------
+
 		self.prev_roll_error = self.current_roll_error
-
-		#implement the PID controller so that it self stabilizes when sticks are not in use
-
-		#pitch and roll must go back to 0 
-
-		#thrust must hold at a level
 
 		self.current_roll_error = self.roll
 
@@ -241,9 +238,31 @@ class Drone():
 
 		ROLL_PID_OUTPUT = (self.proportional*self.p1_parameter) + (self.integral*self.i1_parameter)+(self.differential*self.d1_parameter)
 
-		print(ROLL_PID_OUTPUT)
+		#print(ROLL_PID_OUTPUT)
 
 		self.tilt_drone_in_relation(ROLL_PID_OUTPUT, camera)
+
+		
+		#-----------------------------------
+		#		Tilt PID Controller
+		#-----------------------------------
+
+		self.prev_tilt_error = self.current_tilt_error
+
+		self.current_tilt_error = self.pitch
+
+		self.t_proportional = self.current_tilt_error
+		self.t_integral += self.current_tilt_error
+		self.t_differential = self.current_tilt_error - self.prev_tilt_error
+
+
+		TILT_PID_OUTPUT = (self.t_proportional*self.p1_parameter) + (self.t_integral*self.i1_parameter) + (self.t_differential*self.d1_parameter)
+
+		#print(TILT_PID_OUTPUT)
+
+		self.pitch_drone_in_relation(TILT_PID_OUTPUT, camera)
+
+
 
 
 
