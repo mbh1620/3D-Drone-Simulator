@@ -8,15 +8,17 @@ features
 
 - Roll: Left and Right tilt control of drone.
 
+- Yaw: left and right yaw control.
+
 - Altitude: Up and down control of drone.
 
 - Gravity: Acceleration downwards due to gravity.
 
 features to be implemented:
 
-- Yaw: left and right yaw control. 
-
 The axes of drone will need to move with the drone.
+
+- Add CUDA to parallelise and increase the performance for using nvidia GPU. Make optional usage.
 
 - PID controller and PID graph visualizer for stable flight and for coordinate click and mission control.
 
