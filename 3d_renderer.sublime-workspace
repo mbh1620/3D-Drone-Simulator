@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"Wayp",
+				"waypoint_list"
+			],
+			[
+				"way",
+				"waypoint_list"
+			],
+			[
 				"a_",
 				"a_differential"
 			],
@@ -206,10 +214,6 @@
 			[
 				"upwin",
 				"upwind_waypoint"
-			],
-			[
-				"way",
-				"waypoint"
 			],
 			[
 				"va",
@@ -510,10 +514,6 @@
 			[
 				"cur",
 				"curr_count"
-			],
-			[
-				"oppis",
-				"oppisite"
 			]
 		]
 	},
@@ -568,7 +568,7 @@
 			"file": "Drone.py",
 			"settings":
 			{
-				"buffer_size": 7146,
+				"buffer_size": 7390,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "'''"
@@ -691,6 +691,7 @@
 	},
 	"file_history":
 	[
+		"/Users/matthaywood/Desktop/3D Drone Simulator/waypoint.py",
 		"/Users/matthaywood/Desktop/3D Drone Simulator/mesh_floor.py",
 		"/Users/matthaywood/Desktop/3D Drone Simulator/test.obj",
 		"/Users/matthaywood/Desktop/3D Drone Simulator/obj_loader.py",
@@ -817,8 +818,7 @@
 		"/Users/matthaywood/Desktop/cube_exercise.cpp",
 		"/Users/matthaywood/Desktop/test2.cpp",
 		"/Users/matthaywood/Desktop/cube_exercise.CS",
-		"/Users/matthaywood/Library/Application Support/Sublime Text 3/Packages/User/C#.sublime-build",
-		"/Users/matthaywood/Desktop/fib.cpp"
+		"/Users/matthaywood/Library/Application Support/Sublime Text 3/Packages/User/C#.sublime-build"
 	],
 	"find":
 	{
@@ -1008,15 +1008,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7146,
+						"buffer_size": 7390,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5106,
-								5106
+								7323,
+								7323
 							]
 						],
 						"settings":
@@ -1026,7 +1026,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3877.0,
+						"translation.y": 5616.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

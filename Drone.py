@@ -1,6 +1,7 @@
 import wireframe
 import numpy as np
 import math
+
 '''
 
 Drone Object
@@ -49,18 +50,23 @@ class Drone():
 
 		self.stabilise_PID_controller()
 
+		self.waypoint_list = []
+
+		self.active_waypoint = None
+
 
 	def Wireframe(self):
 		return self.wireframe
 
 	def increase_altitude(self, amount, camera):
-		
-		self.pos[0] += amount*math.sin(self.roll)
-		self.pos[1] += amount*(math.cos(self.roll)*math.cos(self.pitch))
-		self.pos[2] += amount*math.sin(self.pitch)
-		# print('y increment')
-		# print(amount*math.cos(self.roll))
 
+		a = (amount*math.sin(self.roll)*math.cos(-self.yaw)) + (-amount*math.sin(self.pitch)*math.sin(self.yaw))
+		b = amount*(math.cos(self.roll)*math.cos(self.pitch))
+		c = (amount*math.sin(self.pitch)*math.cos(self.yaw)) + (amount*math.sin(self.roll)*math.sin(self.yaw))
+		
+		self.pos[0] += a
+		self.pos[1] += b
+		self.pos[2] += c
 
 		wf = wireframe.Wireframe()
 
@@ -72,7 +78,7 @@ class Drone():
 
 		wf = wireframe.Wireframe()
 
-		matrix = wf.translationMatrix(-amount*math.sin(self.roll),amount*(math.cos(self.roll)*math.cos(self.pitch)),amount*math.sin(self.pitch))
+		matrix = wf.translationMatrix(-a,b,c)
 		
 		self.wireframe.transform(matrix)
 
@@ -283,6 +289,17 @@ class Drone():
 
 		if ALT_PID_OUTPUT > 0:
 			self.increase_altitude(ALT_PID_OUTPUT, camera)
+
+
+	def Add_Waypoint(self, x, y, z):
+		wp = [x,y,z]
+		waypoint_list.push(wp)
+
+	def Remove_Waypoint(self):
+		pass
+
+	def Activate_next_Waypoint(self):
+		active_waypoint = waypoint_list[0]
 
 
 
