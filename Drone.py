@@ -104,7 +104,7 @@ class Drone():
 
 		self.velocity[2] = (amount*math.sin(self.pitch)*math.cos(self.yaw)) + (amount*math.sin(self.roll)*math.sin(self.yaw)) 
 
-	def decrease_altitude(self, amount, x=0, y=0, z=0):
+	def decrease_altitude(self, amount, camera, x=0, z=0):
 		wf = wireframe.Wireframe()
 		self.pos[0] += x
 		self.pos[1] -= amount
@@ -112,7 +112,26 @@ class Drone():
 		self.vertical_velocity = -amount
 		self.velocity[0] = x
 		self.velocity[2] = z
-		matrix = wf.translationMatrix(-x,-amount,-z)
+
+		wf = wireframe.Wireframe()
+
+		matrix = wf.translationMatrix(self.pos[0]-camera.pos[0], self.pos[1]-camera.pos[1], self.pos[2]-camera.pos[2])
+
+		self.wireframe.transform(matrix)
+
+		self.yaw_('r', camera.hor_angle, camera)
+
+		wf = wireframe.Wireframe()
+
+		matrix = wf.translationMatrix(-x,-amount,z)
+		#ADD CAMERA TRANSLATIONS IN HERE!
+		self.wireframe.transform(matrix)
+
+		self.yaw_('l', camera.hor_angle, camera)
+
+		wf = wireframe.Wireframe()
+		matrix = wf.translationMatrix(-self.pos[0]+camera.pos[0],-self.pos[1]+camera.pos[1],-self.pos[2]+camera.pos[2])
+
 		self.wireframe.transform(matrix)
 
 	def pitch_(self, amount, camera):

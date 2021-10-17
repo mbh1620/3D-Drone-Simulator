@@ -421,7 +421,7 @@ class ProjectionViewer:
 			self.drone.vertical_velocity -= 1
 			self.drone.velocity[0] = self.drone.velocity[0] * 0.999 # <--- Drag coefficient x 
 			self.drone.velocity[2] = self.drone.velocity[2] * 0.999 # <--- Drag coefficient z
-			self.drone.decrease_altitude(-self.drone.vertical_velocity, self.drone.velocity[0], self.drone.velocity[2])
+			self.drone.decrease_altitude(-self.drone.vertical_velocity, self.camera, self.drone.velocity[0], self.drone.velocity[2])
 
 		#Blit to screen drone roll angle, pitch angle and yaw angle
 		font = pygame.font.Font('freesansbold.ttf', 20)
