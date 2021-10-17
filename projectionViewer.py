@@ -419,7 +419,9 @@ class ProjectionViewer:
 			pass
 		else:
 			self.drone.vertical_velocity -= 1
-			self.drone.decrease_altitude(-self.drone.vertical_velocity)
+			self.drone.velocity[0] = self.drone.velocity[0] * 0.999 # <--- Drag coefficient x 
+			self.drone.velocity[2] = self.drone.velocity[2] * 0.999 # <--- Drag coefficient z
+			self.drone.decrease_altitude(-self.drone.vertical_velocity, self.drone.velocity[0], self.drone.velocity[2])
 
 		#Blit to screen drone roll angle, pitch angle and yaw angle
 		font = pygame.font.Font('freesansbold.ttf', 20)
@@ -457,7 +459,13 @@ class ProjectionViewer:
 		font = pygame.font.Font('freesansbold.ttf', 20)
 		text = font.render(f'POS(X,Y,Z): {self.drone.pos[0]:.2f}, {self.drone.pos[1]:.2f}, {self.drone.pos[2]:.2f}', True, (255,255,255),(self.background))
 		textRect = text.get_rect()
-		textRect.center = (900, 175)
+		textRect.center = (1000, 175)
+		self.screen.blit(text, textRect)
+
+		font = pygame.font.Font('freesansbold.ttf', 20)
+		text = font.render(f'VELOCITY(X,Y,Z): {self.drone.velocity[0]:.2f}, {self.drone.velocity[1]:.2f}, {self.drone.velocity[2]:.2f}', True, (255,255,255),(self.background))
+		textRect = text.get_rect()
+		textRect.center = (1000, 200)
 		self.screen.blit(text, textRect)
 
 	def mode(self):

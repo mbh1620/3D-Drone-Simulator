@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"wp",
+				"wp_max_yaw_speed"
+			],
+			[
+				"active",
+				"active_waypoint"
+			],
+			[
 				"Wayp",
 				"waypoint_list"
 			],
@@ -506,14 +514,6 @@
 			[
 				"clash",
 				"clashes"
-			],
-			[
-				"mini",
-				"minimum_oppisite"
-			],
-			[
-				"cur",
-				"curr_count"
 			]
 		]
 	},
@@ -532,7 +532,7 @@
 			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 689,
+				"buffer_size": 787,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -541,7 +541,7 @@
 			"file": "__main__.py",
 			"settings":
 			{
-				"buffer_size": 2145,
+				"buffer_size": 1391,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -568,7 +568,7 @@
 			"file": "Drone.py",
 			"settings":
 			{
-				"buffer_size": 7390,
+				"buffer_size": 8150,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "'''"
@@ -691,6 +691,7 @@
 	},
 	"file_history":
 	[
+		"/Users/matthaywood/Desktop/3D Drone Simulator/3d_renderer.sublime-workspace",
 		"/Users/matthaywood/Desktop/3D Drone Simulator/waypoint.py",
 		"/Users/matthaywood/Desktop/3D Drone Simulator/mesh_floor.py",
 		"/Users/matthaywood/Desktop/3D Drone Simulator/test.obj",
@@ -817,8 +818,7 @@
 		"/Users/matthaywood/Desktop/cube_exercise_mod.cpp",
 		"/Users/matthaywood/Desktop/cube_exercise.cpp",
 		"/Users/matthaywood/Desktop/test2.cpp",
-		"/Users/matthaywood/Desktop/cube_exercise.CS",
-		"/Users/matthaywood/Library/Application Support/Sublime Text 3/Packages/User/C#.sublime-build"
+		"/Users/matthaywood/Desktop/cube_exercise.CS"
 	],
 	"find":
 	{
@@ -871,8 +871,8 @@
 						"selection":
 						[
 							[
-								10422,
-								10422
+								11250,
+								11392
 							]
 						],
 						"settings":
@@ -881,10 +881,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1413.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -893,15 +893,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 689,
+						"buffer_size": 787,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								614,
-								686
+								0,
+								0
 							]
 						],
 						"settings":
@@ -921,15 +921,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2145,
+						"buffer_size": 1391,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								446,
-								446
+								1190,
+								1190
 							]
 						],
 						"settings":
@@ -940,7 +940,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1008,15 +1008,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7390,
+						"buffer_size": 8150,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7323,
-								7323
+								7419,
+								7419
 							]
 						],
 						"settings":
@@ -1026,7 +1026,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 5616.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

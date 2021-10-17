@@ -24,6 +24,8 @@ class Drone():
 		self.vertical_velocity = 0
 		self.horizontal_velocity = 0
 
+		self.velocity = [0,0,0]
+
 		a = np.array([[-250,0,-250],[250,0,250], [-250,0,250], [250,0,-250], [1000, 0, 0], [0, 1000, 0], [0, 0, 1000], [0,0,0]])
 
 		self.wireframe.addNodes(a)
@@ -54,6 +56,11 @@ class Drone():
 
 		self.active_waypoint = None
 
+		#waypoint constants
+		self.wp_max_pitch_angle = 60 
+		self.wp_max_speed = 30
+		self.wp_max_yaw_speed = None
+		self.wp_max_alt_climb = None
 
 	def Wireframe(self):
 		return self.wireframe
@@ -91,11 +98,21 @@ class Drone():
 
 		self.vertical_velocity = amount * math.cos(self.roll)
 
-	def decrease_altitude(self, amount):
+		self.velocity[0] = (amount*math.sin(self.roll)*math.cos(-self.yaw)) + (-amount*math.sin(self.pitch)*math.sin(self.yaw))
+ 
+		self.velocity[1] = amount*(math.cos(self.roll)*math.cos(self.pitch))
+
+		self.velocity[2] = (amount*math.sin(self.pitch)*math.cos(self.yaw)) + (amount*math.sin(self.roll)*math.sin(self.yaw)) 
+
+	def decrease_altitude(self, amount, x=0, y=0, z=0):
 		wf = wireframe.Wireframe()
+		self.pos[0] += x
 		self.pos[1] -= amount
+		self.pos[2] += z
 		self.vertical_velocity = -amount
-		matrix = wf.translationMatrix(0,-amount,0)
+		self.velocity[0] = x
+		self.velocity[2] = z
+		matrix = wf.translationMatrix(-x,-amount,-z)
 		self.wireframe.transform(matrix)
 
 	def pitch_(self, amount, camera):
@@ -290,6 +307,9 @@ class Drone():
 		if ALT_PID_OUTPUT > 0:
 			self.increase_altitude(ALT_PID_OUTPUT, camera)
 
+	def yaw_PID(self, camera):
+		#Implementation for PID controller for yaw
+		pass
 
 	def Add_Waypoint(self, x, y, z):
 		wp = [x,y,z]
@@ -300,6 +320,31 @@ class Drone():
 
 	def Activate_next_Waypoint(self):
 		active_waypoint = waypoint_list[0]
+
+
+	def WayPoint_Mode(self, camera):
+
+		#Get position of active waypoint and calculate heading towards waypoint
+
+		#Point towards active Waypoint on a PID(sort out later)
+
+		x_diff = (self.active_waypoint[0]-self.pos[0])**2
+		z_diff = (self.active_waypoint[2]-self.pos[2])**2
+
+		heading = math.atan(z_diff/x_diff)+self.yaw
+
+		while((self.yaw - heading) % 360 != 0):
+			self.yaw_('l', self.wp_max_yaw_speed, camera)
+
+		#Now fly in that direction
+
+		#Pitch forward and increase altitude
+
+		self.pitch_drone_in_relation(20, camera)
+
+
+
+
 
 
 
